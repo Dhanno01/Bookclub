@@ -1,0 +1,52 @@
+{% extends "club/layout.html" %}
+
+{% block body %}
+
+<div class="card" style="background-color: rgb(242, 242, 242); display: flex; align-items: center; justify-content: center; flex-direction: column;">
+    <h2 class="card-title my-4">Add Book </h2>
+    <img src="/static/book.png"  alt="club" height="100px" width="100px">
+    <div class="card-body">
+        <form method="post" action="{% url 'add_book' %}">
+            {% csrf_token %}
+            <div class="form-group d-flex justify-content-center my-4">
+                <input  class="form-control" type="text" name="title" required placeholder="Book Name">
+            </div>
+            <div class="form-group d-flex justify-content-center my-4">
+                <input  class="form-control" type="text" name="author"  rows="2" required placeholder="Author">
+            </div>
+            <div class="form-group d-flex justify-content-center my-4">
+                <input  class="form-control" type="text" name="cover_image" required placeholder="CoverImg Url">
+            </div>
+            <div class="form-group d-flex justify-content-center my-4">
+                <input  class="form-control" type="text" name="description"  rows="3" required placeholder="Description">
+            </div>
+            <div class="form-group my-4">
+               <input class="btn btn-outline-secondary  custom-button1" type="submit" value="Add Book">
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

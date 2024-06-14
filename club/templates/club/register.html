@@ -1,0 +1,43 @@
+{% extends "club/layout.html" %}
+
+
+{% block body %}
+
+<div class="row no-gutters">
+    <div class="col-sm-6 mb-3 mb-sm-0">
+      <div class="card image-card" style="border:none">
+        <img src="./static/register.jpg" class="rounded float-start" alt="image" width="100%" height="100%">
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card text-center image-card" style="border:none">
+        <div class="card-body">
+            <h1 class="card-title my-4 display-5">Join a Community of readers</h1>
+            <p class="para">Track Your Books, Receive <br>Book Recommendations, Or Even <br>Browse A Book Club.</p>
+            {% if message %}
+                <div>{{ message }}</div>
+            {% endif %}
+            <form action="{% url 'register' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group d-flex justify-content-center my-4">
+                    <input class="form-control" type="text" name="username" placeholder="Username">
+                </div>
+                <div class="form-group d-flex justify-content-center my-4">
+                    <input class="form-control" type="email" name="email" placeholder="Email Address">
+                </div>
+                <div class="form-group d-flex justify-content-center my-4">
+                    <input class="form-control" type="password" name="password" placeholder="Password">
+                </div>
+                <div class="my-4">
+                <input class="btn custom-button" type="submit" value="SIGN UP">
+                </div>
+            </form>
+            <div class="my-5">
+              <p class="para">Already have an account? <a href="{% url 'login' %}" class="text-reset">SIGN-IN here.</a></p>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+ {% endblock %} 

@@ -1,0 +1,162 @@
+{% extends "club/layout.html" %}
+
+{% block body %}
+<!-- 1st Card -->
+
+<div class="card mb-3 w-100 card-img" style="background-color: rgb(228, 205, 180);">
+    <div class="row no-gutters align-items-center">
+      <div class="col">
+        <div class="card-body text text-center">
+          <h2 class="card-title">Building Community through Books.</h2>
+          <p class="card-text text2">Organize your club, start a new one, or find your book people.</p>
+          {% if user.is_authenticated %}
+            <a class="btn  custom-button3" href="{% url 'create_club' %}" role="button">Create A Club</a>
+          {% else %}
+            <a class="btn  custom-button3" href="{% url 'register' %}" role="button">Create A Club</a>
+          {% endif %}
+        </div>
+      </div>
+      <div class="col">
+        <img src="./static/index.webp" class=" rounded-start" alt="book" height="300px">
+      </div>
+    </div>
+</div>
+
+<!-- cards -->
+<div class="card" style="border:none">
+<div class="row g-2 d-flex align-items-center justify-content-center">
+  <div class="col-4 my-5">
+    <div class="card" style="width: 450px; height:250px; border:none">
+      <img src="./static/card1.jpg" class="index" alt="card1">
+      <div class="card-body text-center">
+        <a href="{% url 'find_club' %}" class="btn custom-button3 btn-dark">Find A Club To Join</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-4 my-5">
+    <div class="card" style="width: 450px; height:250px; border:none">
+      <img src="./static/card2.avif" class="index" alt="card2">
+      <div class="card-body text-center">
+        <a href="{% url 'books' %}" class="btn custom-button3 btn-dark">Discover New Books</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+ <!--  For displying the clubs -->
+    <h2 class="text-center mt-3">Join A BookClub</h2>
+    <h6 class="text-center mt-3 mb-4">Readers wanted! Browse clubs that are similar to your vibe and find the perfect book club for you.</h6>
+    <div class="card d-flex align-items-center" style="border:none; background-color: rgb(228, 205, 180);">
+     <div class="row mx-3" >
+    {% for club in activeClub %}
+    <div class="card mx-3 mt-4" style="width: 18rem;">
+        <img src="{{club.imageUrl}}" class="card-img-top" alt="image" height="350rem" width="150rem" >
+        <div class="card-body text-center">
+          <h5 class="card-title">{{club.name}}</h5>
+          <p class="card-text" id="clubDescription{{ club.id }}">{{ club.description | truncatewords:20 }} 
+          {% if club.description|length > 20 %}
+            <a href="{% url 'clubprofile' club_id=club.id  %}" class="link-dark link-underline-opacity-50-hover text-reset" onclick="showFullDescription({{ club.id }})">more</a>
+          {% endif %}
+          </p>
+          <h5 class="text-center">Currently Reading:</h5>
+          {% for book in club.books.all %}
+                    <div class="text-center">
+                        <img src="{{ book.cover_image }}" alt="{{ book.title }}" height="200px" width="200px" style="object-fit: cover;">
+                        <p>{{ book.title }}</p>
+                    </div>
+                {% endfor %}
+          <a href="{% url 'clubprofile' club_id=club.id  %}" class="btn custom-button3">Details</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<div class="card-body text-center my-4">
+  <a href="{% url 'find_club' %}" class="btn custom-button3 btn-dark">Discover More Clubs</a>
+</div>
+</diV>
+
+<!--Book of the month-->
+<div class="card d-flex align-items-center" style="border:none">
+  <div class="row no-gutters">
+    <!-- Image Card -->
+    <div class="col">
+      <div class="card mt-5 mr-3" style="width:400px; height:450px; border-radius: 20px;">
+        <img src="/static/bookmonth.webp"  alt="bookimage"  style=" width:400px; height:450px; object-fit: cover;border-radius: 20px;">
+      </div>
+    </div>
+    <!-- Content Card -->
+    <div class="col mt-5 ml-3">
+      <div class="card" style="width:500px; height:auto;
+        align-items:left; justify-content:left; flex-direction: column; border: none">
+        <div class="card-body" style="font-family:fangsong;">
+          <h4 style="font-size:24px;">Book of the month</h4>
+          <h2 class="card-title mt-3" style="font-size:4rem;">Wreck the Halls</h2>
+          <h6 class="card-subtitle" style="font-size:2rem;"> by Tessa Bailey</h6>
+          <p class="card-text mt-5" style="font-size:1rem; ">#1 New York Times bestselling author Tessa Bailey <br>
+            delivers a sexy, hilarious standalone holiday rom-com about the adult children of two former rock stars 
+            who team up to convince their estranged mothers to play a Christmas Eve concert...</p>
+        </div>
+      </div>
+   </div>
+  </div>
+</div>
+<!-- Current month recommendation -->
+
+<div class="card d-flex align-items-center mt-5" style="border:none; justify-content: center; background-color: rgb(228, 205, 180);">
+  <h2 class=" card-title profile mt-5" style="font-size:2.2rem;">December's Recommended Reading </h2>
+  <p class="card-subtitle" style="font-size:1.2rem;">Monthly inspiration for your next book club read, 
+    with discussion questions to guide your meeting.</p>
+  <div class="row mx-4" >
+    {% for book in books %}
+      <div class="card mx-3 mt-4" style="width:250px; height:400px; border:none;background-color: rgb(228, 205, 180);">
+          <div class="card-body text-center">
+                <div class="text-center">
+                  <img src="{{ book.cover_image }}" alt="{{ book.title }}" height="300px" width="200px" style="object-fit: cover; border-radius:15px">
+                  <p class="mt-3"> by {{book.author}}
+                </div>
+         </div>
+      </div>
+    {% endfor %}
+  </div>
+</diV>
+
+<!--Displaying Any 4 comment-->
+
+<div class="card d-flex align-items-center mt-5" style="border:none; justify-content: center;">
+  <h2 class="card-title profile mt-3" style="font-size:2.2rem;">Lovely Comments</h2>
+
+  {% for comment in latest_comments %}
+    {% if forloop.counter0|divisibleby:2 %}
+      {% if forloop.first %}
+        <div class="row mx-2">
+      {% else %}
+        </div><div class="row mx-2">
+      {% endif %}
+    {% endif %}
+
+    <div class="card mx-3 mt-4" style="width:550px; height:300px; border:none; background-color: rgb(255, 198, 179); border-radius:25px">
+      <div class="card-body text-center">
+        <div class="text-center">
+          <p class="mt-3"> by {{ comment.author|capfirst}}</p>
+          <p class="mt-3"> “ {{ comment.message }}”
+          </p>
+        </div>
+      </div>
+    </div>
+
+    {% if forloop.last %}
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+
+
+ 
+
+
+
+
+
+
+
+{% endblock %}

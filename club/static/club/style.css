@@ -1,0 +1,94 @@
+.navbar-brand {
+    font-size: 2.0rem; /* Increase font size for the brand */
+    color:#211919
+}
+
+.navbar-nav .nav-link {
+    font-size: 1.3rem; /* Increase font size for nav-links */
+    margin-top: 0.3rem; 
+    color:#211919
+}
+
+.custom-button4 {
+    border-radius: 20px;
+    width: 120px;
+    background-color: lightcoral; 
+    height: 45px;
+
+}
+
+.image-card{
+    height: 45rem;
+}
+
+.form-control {
+    border-radius: 20px; 
+    width: 450px;
+    height: 50px;
+}
+ 
+.card-body{
+    font-family:cursive;
+}
+
+.custom-button {
+    border-radius: 20px; 
+    background-color: lightcoral; 
+    color: #121111; 
+    height:50px;
+    width:450px;
+}
+
+.para{
+    color:grey;
+}
+
+.custom-button1 {
+    border-radius: 20px;  
+    color: #121111; 
+    background-color: white;
+    height:50px;
+    width:450px;
+}
+
+.card-img{
+    height:300px;
+}
+
+.text{
+    font-family: Georgia;
+}
+
+.text2{
+    font-size: 16px;
+    font-weight: 10px;
+}
+
+.custom-button3 {
+    border-radius: 20px; 
+    background-color: lightcoral; 
+    color: #121111; 
+    height:45px;
+    width:250px;
+    font-size: 18px;
+    font-weight: bold; 
+}
+
+.club{
+    background-color: rgb(255, 230, 230);
+    height:100rem;
+    width:100rem;
+}
+
+.profile{
+    font-family: emojis;
+}
+
+.index{
+    border-radius: 25px !important;
+    object-fit: cover;
+    width: 450px;
+    height: 200px;
+}
+
+

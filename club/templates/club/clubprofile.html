@@ -1,0 +1,89 @@
+
+{% extends "club/layout.html" %}
+
+{% block body %}
+ 
+<div class="card mt-5" style="max-width: 750px; height:300px; margin: auto; display: flex; 
+  align-items: center; justify-content: center; flex-direction: column; border-radius: 15px;"
+  >
+  <img src="{{club.imageUrl}}" alt="bgimage"  style="height:300px; width:750px; object-fit: cover;">
+</div>
+
+<div class="card mt-3" style="max-width: 750px; height:300px; margin: auto; display: flex;
+align-items: center; justify-content: center; flex-direction: column; border:none; "
+>
+  <img src="{{club.profileUrl}}" class="img-thumbnail rounded-circle position-absolute" 
+  style="top: 15px; left: 10px; width: 250px; height: 250px; z-index: 1; object-fit: cover;" alt="profilepic">
+
+    <div class="card-body mt-4 ml-5" style="z-index: 2;">
+      <h3 class="card-title profile ml-3">{{club.name}}</h3>
+        <div class="mt-4 ml-5">
+          <h6 class="profile"> {{club.members.count}} Members</h6>
+        </div>
+
+        <div class="mt-5 mx-4" style="display: flex; align-items: center;">
+            {% if is_join or is_owner %}
+              <a href="{% url 'club_chat' club.id %}">
+                <i class="far fa-comment fa-2xl mr-3"></i>
+              </a>
+            {% endif %}
+        
+          {% if user.is_authenticated%}
+            {% if not is_owner %}
+              {% if is_join %}
+                <form method="post" action="{% url 'leave_club' club.id %}">
+                    {% csrf_token %}
+                    <button class="btn" style="border-radius: 20px; background-color: lightcoral;  color: #121111; height:45px;
+                    width:150px;" type="submit"name="userjoin">
+                    Leave
+                    </button>
+                </form>
+              {% else %}
+                <form method="post" action="{% url 'join_club' club.id %}">
+                  {% csrf_token %}
+                  <button class="btn" style="border-radius: 20px; background-color: lightcoral;  color: #121111; height:45px;
+                  width:150px;" type="submit" name="userjoin">
+                  JOIN
+                  </button>
+                </form>
+              {% endif %}
+            {% endif %}
+          {% else %}
+              <a class="btn" style="border-radius: 20px; background-color: lightcoral;  color: #121111; height:45px;
+              width:150px;" href="{% url 'register' %}" role="button">Join</a>
+          {% endif %}
+        </div>
+
+
+
+    </div>
+</div>
+<hr style="border-color: rgb(255, 153, 153); border-width: 3px; width: 50%;">
+
+<div class="card d-flex align-items-center" style="border:none">
+<div class="row no-gutters">
+  <!-- Image Card -->
+  <div class="col mt-5 mr-3">
+  <div class="card" style="width:350px; height:450px;border-radius: 25px;align-items: center; 
+   justify-content: center; background-color:rgb(242, 217, 230); overflow: hidden;">
+    <h4 class="text-center profile"> Currently Reading: </h4>
+    {% for book in club.books.all %}
+    <img src="{{ book.cover_image }}" class="rounded-start" alt="bookimage"  style=" width:250px; height:350px; object-fit: cover;">
+    {% endfor %}
+  </div>
+  </div>
+  <!-- Content Card -->
+  <div class="col mt-5 ml-3">
+  <div class="card" style="width:350px; height:auto;
+    align-items: center; justify-content: center; flex-direction: column; border:none;">
+    <h4 class="profile">About {{club.name}} </h4>
+    <p class="text-left profile">{{club.description}}</p>
+  </div>
+</div>
+</div>
+</div>
+<hr  class="mt-5" style="border-color: rgb(255, 153, 153); border-width: 3px; width: 50%;">
+
+<!-- tBr -->
+
+{% endblock %}

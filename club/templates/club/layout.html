@@ -1,0 +1,78 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}BooksClub{% endblock %}</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link href="{% static 'club/style.css' %}" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    </head>
+    <body>
+
+    <nav class="navbar sticky-top  navbar-expand-lg" style="background-color: rgb(242, 242, 242);"> 
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav"> 
+                    <li class="nav-item">
+                        <h3>
+                            <a class="navbar-brand" href="{% url 'index' %}">
+                                <img src="/static/logo.jpg" alt="logo" width="80" height="40" class="d-inline-block align-text-top">
+                                BooksClub
+                            </a>
+                        </h3>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"  href="{% url 'find_club'%}"><p>Join A Book Club</p></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'books' %}"><p>Find A Book</p></a>
+                    </li>
+                </ul>
+            </div>
+                    {% if user.is_authenticated %}
+                        <div class="dropdown">
+                        <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                           Clubs
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'user_clubs' %}">My cLubs</a></li>
+                            <li><a class="dropdown-item" href="{% url 'joined_clubs' %}">Joined clubs</a></li>
+                        </ul>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                               {{ user.username|capfirst }}
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'add_book' %}">Add Book</a></li>
+                                <li><a class="dropdown-item" href="{% url 'displaywatchlist' %}">Readlist</a></li>
+                                <li><a class="dropdown-item" href="{% url 'logout' %}">LOGOUT</a></li>
+                            </ul>
+                        </div>
+                        <a href="{% url 'comments' %}">
+                            <i class="far fa-comment fa-lg ml-2"></i>
+                        </a>
+                    {% else %}
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a class="btn" href="{% url 'login' %}" role="button">SIGN IN</a>
+                            <a class="btn custom-button4" href="{% url 'register' %}" role="button">SIGN UP</a>
+                        </div>
+                    {% endif %}
+        </div>
+    </nav>
+        
+    <div class="body">
+        {% block body %}
+        {% endblock %}
+    </div>
+
+    <footer class="text-center py-3 mt-5" style="background-color: rgb(242, 242, 242);">
+        <p><b>&copy; 2024 BooksClub. All rights reserved.</b></p>
+    </footer>
+
+</body>
+</html>

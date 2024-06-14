@@ -1,0 +1,115 @@
+{% extends "club/layout.html" %}
+
+{% block body %}
+
+
+<div class="card mb-3 w-100 card-img" style="background-color: rgb(255, 153, 187);">
+    <div class="row no-gutters align-items-center">
+      <div class="col">
+        <div class="card-body text text-center">
+          <h1 class="card-title" style='font-family:cursive'>Most Popular Books Of All Time.</h1>
+          <p class="card-text"style='font-family:cursive ; font-size:1rem'>Searching for the best books for your book club? Look no further!
+            <br>We have all the top reads books under one roof for you.
+          </p>
+        </div>
+      </div>
+      <div class="col">
+        <img src="/static/findbook.webp" class=" rounded-start" alt="book" height="300px">
+      </div>
+    </div>
+</div>
+
+<!--Search bar-->
+<div class="d-flex justify-content-center">
+    <form class="d-flex" action="{% if request.GET.page %}{% url 'search_books' %}?page={{ request.GET.page }}{% else %}{% url 'search_books' %}{% endif %}" method="get">
+      <input class="form-control me-2" type="search" name="q" placeholder="Search Books By Title/Author" autocomplete aria-label="Search">
+      <button class="btn btn-outline-dark custom-button4 ml-3" type="submit">Search</button>
+    </form>
+</div>
+
+<hr style='boder-width: 250px'></hr>
+
+<!--Display the books-->
+
+<div class="card d-flex align-items-center" style="border:none">
+  {% for book in books %}
+  <div class="row no-gutters justify-content-center">
+      <!-- Image Card -->
+      <div class="col">
+          <div class="card my-5 mr-3" style="width:300px; height:500px; border-radius: 20px; border: none">
+              <img src="{{ book.cover_image }}" alt="{{ book.title }}" style=" width:300px; height:350px; object-fit: cover; border-radius: 20px;">
+              {% if user.is_authenticated %}
+                  {% if book in book_watchlist %}
+                      <form action="{% url 'remove' id=book.id %}" method="POST">
+                          {% csrf_token %}
+                          <button type="submit" class="btn custom-button3 my-4 mx-4">
+                              Remove from Shelf
+                          </button>
+                      </form>
+                  {% else %}
+                      <form action="{% url 'add' id=book.id %}" method="POST">
+                          {% csrf_token %}
+                          <button type="submit" class="btn custom-button3 my-4 mx-4">
+                              Add To Shelf
+                          </button>
+                      </form>
+                  {% endif %}
+              {% else %}
+                <a class="btn btn custom-button3 my-3 mx-4" href="{% url 'register' %}" role="button">Add TO Shelf</a>
+              {% endif %}
+              {% if user.is_authenticated %}
+                <div>
+                  <a class="btn btn custom-button3 my-3 mx-4" href="{% url 'book_chat' book.id %}" role="button">Discussion Guide</a>
+                </div>
+              {% else %}
+                <div>
+                  <a class="btn btn custom-button3 my-3 mx-4" href="{% url 'register' %}" role="button">Discussion Guide</a>
+                </div>
+              {% endif %}
+
+              
+          </div>
+      </div>
+      <!-- Content Card -->
+      <div class="col mt-5 ml-3">
+          <div class="card" style="width:500px; height:auto; flex-direction: column; border: none">
+              <div class="card-body" style="font-family: fangsong;">
+                  <h2 class="card-title mt-2" style="font-size:3rem;">{{ book.title }}</h2>
+                  <h6 class="card-subtitle" style="font-size:2rem;">{{ book.author }}</h6>
+                  <p class="card-text mt-5" style="font-size:1rem; "><b>Summary: </b><br>{{ book.description }}</p>
+              </div>
+          </div>
+      </div>
+  </div>
+  {% endfor %}
+</div>
+
+  
+<!-- pagination-->
+<nav aria-label="Page navigation example">
+    <ul class="pagination  pagination-lg justify-content-end mx-4">
+        {% if posts_in_page.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ posts_in_page.previous_page_number}}" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      {% endif %}
+      {% if posts_in_page.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ posts_in_page.next_page_number}}" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+  </nav>
+  
+
+
+
+
+
+
+
+{% endblock %}

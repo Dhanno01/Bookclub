@@ -1,0 +1,49 @@
+{% extends "club/layout.html" %}
+
+{% block body %}
+
+<div class="card mb-3" style="border:none">
+    <div class="row g-0">
+      <div class="col">
+        <img src="/static/findclub1.avif" class="rounded-start" alt="findclub">
+      </div>
+      <div class="col align-items-center mt-5 mr-5">
+        <div class="card-body" style="font-family:ui-rounded">
+          <h3 class="card-title" style="font-size:2.5rem">Find your book community.</h3>
+          <p class="card-text mt-4" style="font-size:1.3rem">Looking for a book club? Whether you want to 
+            connect over brunch or booze,explore history, cozy up 
+            with a mystery, explore other cultures, become more 
+            mindful, or find support, there's a club out there for you. 
+            Explore dozens of online book clubs or find a book club near you.
+          </p>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="card d-flex align-items-center" style="border:none; background-color: rgb(228, 205, 180);">
+     <div class="row mx-3" >
+    {% for club in activeClub %}
+    <div class="card mx-4 my-5" style="width: 18rem;">
+        <img src="{{club.imageUrl}}" class="card-img-top" alt="image" height="350rem" width="150rem" >
+        <div class="card-body text-center">
+          <h5 class="card-title">{{club.name}}</h5>
+          <p class="card-text" id="clubDescription{{ club.id }}">{{ club.description | truncatewords:20 }} 
+          {% if club.description|length > 20 %}
+            <a href="{% url 'clubprofile' club_id=club.id  %}" class="link-dark link-underline-opacity-50-hover" onclick="showFullDescription({{ club.id }})">more</a>
+          {% endif %}
+          </p>
+          <h5 class="text-center">Currently Reading:</h5>
+          {% for book in club.books.all %}
+                    <div class="text-center">
+                        <img src="{{ book.cover_image }}" alt="{{ book.title }}" height="200px" width="200px" style="object-fit: cover;">
+                        <p>{{ book.title }}</p>
+                    </div>
+                {% endfor %}
+          <a href="{% url 'clubprofile' club_id=club.id  %}" class="btn custom-button3">Details</a>
+        </div>
+    </div>
+    {% endfor %}
+</diV>
+
+{% endblock %}

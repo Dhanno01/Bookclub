@@ -1,0 +1,47 @@
+{% extends "club/layout.html" %}
+
+{% block body %}
+
+<div class="card d-flex align-items-center" style="border:none; background-color:rgb(204, 221, 255)">
+    <div class="mr-auto ml-3">
+        <a href="{% url 'books'  %}">
+        <i class="fa-sharp fa-solid fa-arrow-left fa-xl"></i>
+        </a>
+    </div>
+    <h2 class="my-3"> Chat </h2>
+    {% for content in contents %}
+        <div class="row no-gutters">
+            <div class="col my-4">
+                <div class="card" style="width:500px; height:auto;
+                    align-items:center; justify-content:center; flex-direction: column;">
+                    <div class="card-body" style="font-family:fangsong;">
+                        <h6 class="card-subtitle" style="font-size:2rem;"> ~ {{ content.user }}</h6>
+                        <p class="card-text mt-3" style="font-size:1rem; ">{{ content.content }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+
+
+<!-- Add chat-->
+
+<div class="fixed-bottom  d-flex justify-content-center" style="background-color: rgb(242, 242, 242)">
+    <form action="{% url 'book_chat' book.id  %}" method="POST" class="align-items-center">
+    {% csrf_token %}
+       <div class="d-flex">
+        <div class="my-3">
+            <input type="text" name="content" class="form-control" placeholder="Add a new comment">
+        </div>
+        <div class="form-group mx-2 my-3">
+            <button type="submit" class="btn btn-outline-secondary" style="border-radius: 20px; width: 120px; height: 45px; ">
+                Add
+            </button>
+        </div>
+    </div>
+    </form>
+</div>
+
+{% endblock %}

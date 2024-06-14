@@ -1,0 +1,49 @@
+{% extends "club/layout.html" %}
+
+{% block body %}
+
+
+<div class="card d-flex align-items-center" style="border:none; background-color: rgb(228, 205, 180);">
+    <div class="row mx-3" >
+      {% if user_clubs%}
+        {% for club in user_clubs %}
+            <div class="card mx-3 mt-4" style="width: 18rem;">
+                <img src="{{club.imageUrl}}" class="card-img-top" alt="image" height="350rem" width="150rem" >
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{club.name}}</h5>
+                    <p class="card-text" id="clubDescription{{ club.id }}">{{ club.description | truncatewords:20 }} 
+                        {% if club.description|length > 20 %}
+                            <a href="{% url 'clubprofile' club_id=club.id  %}" class="link-dark link-underline-opacity-50-hover text-reset" 
+                            onclick="showFullDescription({{ club.id }})">more</a>
+                        {% endif %}
+                    </p>
+                    <h5 class="text-center">Currently Reading:</h5>
+                        {% for book in club.books.all %}
+                            <div class="text-center">
+                                <img src="{{ book.cover_image }}" alt="{{ book.title }}" height="200px" width="200px" style="object-fit: cover;">
+                                <p>{{ book.title }}</p>
+                            </div>
+                        {% endfor %}
+                    <a href="{% url 'clubprofile' club_id=club.id  %}" class="btn custom-button3">Details</a>
+                </div>
+            </div>
+        {% endfor %}
+        {% else %}
+        <div class="d-flex align-items-center justify-content-center" style="height: 100vh;">
+            <div class="card text-center" style="border:none; background-color: rgb(228, 205, 180); height:600px; width: 500px;">
+                <h2 class="mt-5">You haven't created any clubs yet.</h2>
+                <div class="card-body">
+                    <a href="{% url 'create_club' %}" class="btn custom-button3 btn-dark">Create A Club</a>
+                </div>
+            </div>
+        </div>
+      {% endif %}
+    </div>
+</diV>
+
+
+
+
+
+
+{% endblock %}
